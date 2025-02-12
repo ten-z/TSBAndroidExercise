@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import co.nz.tsb.interview.bankrecmatchmaker.R;
 import co.nz.tsb.interview.bankrecmatchmaker.data.MatchRepository;
@@ -36,9 +37,10 @@ public class FindMatchActivity extends AppCompatActivity {
         FindMatchViewModelFactory factory = new FindMatchViewModelFactory(repository);
         FindMatchViewModel viewModel = new ViewModelProvider(this, factory).get(FindMatchViewModel.class);
 
-        float target = getIntent().getFloatExtra(TARGET_MATCH_VALUE, 1000f);
+        float target = getIntent().getFloatExtra(TARGET_MATCH_VALUE, 108.60f);
         if (viewModel.getTargetMatchValue().getValue() == null) {
-            viewModel.setTargetMatchValue(BigDecimal.valueOf(target));
+            String targetStr = String.format(Locale.US, "%.2f", target);
+            viewModel.setTargetMatchValue(new BigDecimal(targetStr));
         }
 
         recyclerView.setHasFixedSize(true);
